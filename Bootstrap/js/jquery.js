@@ -35,13 +35,28 @@ $(document).ready(function() {
         $('#cover').removeClass('op');
         $('.form_dangnhap').removeClass('xuong');
         $('.form_dangky').removeClass('xuong');
+        $('.form_update').removeClass('xuong');
+        $('.form_changepass').removeClass('xuong');
         $('.thoat').removeClass('xuong1');
     });
-
+    $('#update').click(function() {
+        $('.form_dangnhap').removeClass('xuong');
+        $('.form_dangky').removeClass('xuong');
+        $('.form_changepass').removeClass('xuong');
+        $('.form_update').addClass('xuong');
+    });
     $('#click_dangky').click(function() {
         $('.form_dangnhap').removeClass('xuong');
         $('.form_dangky').addClass('xuong');
-    })
+        $('.form_update').removeClass('xuong');
+        $('.form_changepass').removeClass('xuong');
+    });
+    $('#changePass').click(function() {
+        $('.form_dangnhap').removeClass('xuong');
+        $('.form_dangky').removeClass('xuong');
+        $('.form_update').removeClass('xuong');
+        $('.form_changepass').addClass('xuong');
+    });
     $('#click_dangnhap2').click(function() {
         $('#cover').addClass('op');
         $('.form_dangnhap').addClass('xuong');
@@ -66,6 +81,8 @@ $(document).ready(function() {
             $('#cover').removeClass('op');
             $('.form_dangnhap').removeClass('xuong');
             $('.form_dangky').removeClass('xuong');
+            $('.form_update').removeClass('xuong');
+            $('.form_changepass').removeClass('xuong');
             $('.thoat').removeClass('xuong1');
         }
     });

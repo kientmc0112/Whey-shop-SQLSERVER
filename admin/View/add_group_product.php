@@ -1,10 +1,6 @@
 <?php 
-if(isset($_POST["btn_add"])){
+if (isset($_POST["btn_add"])) {
 	$namegroup = $_POST["txt_namegroup"];
-	/*$sql="SELECT MAX(IdGroupProduct) as max FROM tbl_product_group";
-	$query= sqlsrv_query($conn_sqlsrv, $sql);
-	$row = sqlsrv_fetch_array($query);
-	$idgroup = $row["max"] + 1;*/
 	$sql="INSERT INTO tbl_product_group(NameGroupProduct) VALUES (N'$namegroup')";
 	$query= sqlsrv_query($conn_sqlsrv, $sql) or die("Thêm mới thất bại");
 	header('location: index.php?page=manage_group_product');
@@ -20,7 +16,7 @@ if(isset($_POST["btn_add"])){
 					<input type="text" class="form-control check_error" name="txt_namegroup" value="" placeholder="Nhập tên nhóm...">
 					<span class="label label-warning lb_error"><span class="glyphicon glyphicon-remove" style="margin-right: 5px"></span>Không được để trống</span>
 				</div>
-				<button type="submit" class="btn btn-success" name="btn_add">Add</button>
+				<button type="submit" class="btn btn-success" name="btn_add">Lưu</button>
 			</form>
 		</div>
 	</div>

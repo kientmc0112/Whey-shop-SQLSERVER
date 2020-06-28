@@ -9,11 +9,11 @@ if(isset($_GET["id"])){
 	if(isset($_POST["btn_update"])){
 		$idnews = $_POST["txt_idnews"];
 		$title = $_POST["txt_title"];
-		$discreption = $_POST["txt_discreption"];
+		$description = $_POST["txt_description"];
 		$content = $_POST["txt_content"];
 		$urlimage = $_POST["txt_urlimage"];
 		$idnewsgroup = $_POST["sl_idnewsgroup"];
-		$sql="UPDATE tbl_news_detail SET IdNews='$idnews',Title=N'$title',Discreption=N'$discreption',Content=N'$content',UrlImage='$urlimage',IdNewsGroup='$idnewsgroup' WHERE IdNews='$id'";
+		$sql="UPDATE tbl_news_detail SET IdNews='$idnews',Title=N'$title',Description=N'$description',Content=N'$content',UrlImage='$urlimage',IdNewsGroup='$idnewsgroup' WHERE IdNews='$id'";
 		$query= sqlsrv_query($conn_sqlsrv, $sql) or die("Update thất bại");
 		header('location: index.php?page=update_news');
 	}
@@ -33,8 +33,8 @@ if(isset($_GET["id"])){
 			<span class="label label-warning lb_error"><span class="glyphicon glyphicon-remove" style="margin-right: 5px"></span>Không được để trống</span>
 		</div>
 		<div class="form-group">
-			<label>Discreption:</label>
-			<textarea class="form-control" rows="5" name="txt_discreption"><?PHP echo($row["Discreption"]) ?></textarea>
+			<label>Description:</label>
+			<textarea class="form-control" rows="5" name="txt_description"><?PHP echo($row["Description"]) ?></textarea>
 			<span class="label label-warning lb_error"><span class="glyphicon glyphicon-remove" style="margin-right: 5px"></span>Không được để trống</span>
 		</div>
 		<div class="form-group">
@@ -54,18 +54,20 @@ if(isset($_GET["id"])){
 			<label for="sel1">IdNewsGroup</label>
 			<select class="form-control" id="sel1" name="sl_idnewsgroup">
 				<?php 
-				$sql="SELECT * FROM tbl_news_group";
-				$query= sqlsrv_query($conn_sqlsrv, $sql);
-				while($row = sqlsrv_fetch_array($query)){
-					if($row["IdNewsGroup"] == $idnewsgroup){
-						?>
-						<option value="<?php echo($row["IdNewsGroup"])?>" selected><?php echo($row["IdNewsGroup"]."(".$row["NameNewsGroup"]).")" ?></option>
-					<?php }else{ ?>
-						<option value="<?php echo($row["IdNewsGroup"])?>"><?php echo($row["IdNewsGroup"]."(".$row["NameNewsGroup"]).")" ?></option>
-
-					<?php } 
-
-				} ?>
+					$sql="SELECT * FROM tbl_news_group";
+					$query= sqlsrv_query($conn_sqlsrv, $sql);
+					while ($row = sqlsrv_fetch_array($query)) {
+						if ($row["IdNewsGroup"] == $idnewsgroup) {
+				?>
+				<option value="<?php echo($row["IdNewsGroup"])?>" selected><?php echo($row["IdNewsGroup"]."(".$row["NameNewsGroup"]).")" ?></option>
+				<?php 
+						} else { 
+				?>
+				<option value="<?php echo($row["IdNewsGroup"])?>"><?php echo($row["IdNewsGroup"]."(".$row["NameNewsGroup"]).")" ?></option>
+				<?php 
+						} 
+					} 
+				?>
 			</select>
 		</div>
 		<button type="submit" class="btn btn-success" name="btn_update">Update</button>

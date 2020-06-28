@@ -533,7 +533,7 @@ INSERT INTO `devvn_quanhuyen` (`maqh`, `name`, `type`, `matp`) VALUES
 ('663', 'Huyện Đắk Mil', 'Huyện', '67'),
 ('664', 'Huyện Krông Nô', 'Huyện', '67'),
 ('665', 'Huyện Đắk Song', 'Huyện', '67'),
-('666', 'Huyện Đắk R\'Lấp', 'Huyện', '67'),
+('666', 'Huyện Đắk Lấp', 'Huyện', '67'),
 ('667', 'Huyện Tuy Đức', 'Huyện', '67'),
 ('672', 'Thành phố Đà Lạt', 'Thành phố', '68'),
 ('673', 'Thành phố Bảo Lộc', 'Thành phố', '68'),

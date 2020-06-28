@@ -1,47 +1,65 @@
 <?php 
-if(isset($_POST["btn_add"])){
+if (isset($_POST["btn_add"])) {
 	$taikhoan = $_POST["txt_taikhoan"];
 	$matkhau = md5($_POST["txt_matkhau"]);
-	$chinhanh = $_POST["chinhanh"];
+	$role = $_POST['txt_role'];
+	$name = $_POST['txt_name'];
+	// $chinhanh = $_POST["chinhanh"];
 	$sql="SELECT * FROM tbl_admin where Username = '$taikhoan' ";
 	$params = array();
     $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
     $query = sqlsrv_query($conn_sqlsrv, $sql , $params, $options);
-	if(sqlsrv_num_rows($query) != false){
-		echo('<script>swal({
+    $sql0="SELECT MAX(IdAdmin) as 'max' FROM tbl_admin";
+	$query0= sqlsrv_query($conn_sqlsrv, $sql0);
+	$row = sqlsrv_fetch_array($query0);
+	if ($row['max'] != '') {
+		$idAdmin = $row["max"] + 2;
+	} else {
+		$idAdmin = 2;
+	}
+	
+	if (sqlsrv_num_rows($query) != false) {
+		echo '<script>swal({
 			title: "Tên đăng nhập bị trùng",
 			icon: "warning",
 			button: "OK",
-		});</script>');
-	}else{
-		$sql="INSERT INTO tbl_admin(Username, Pass, NameAdmin, Email, Address, Phone, IdBranch) VALUES ('$taikhoan','$matkhau','','','','', '$chinhanh')";
+		});</script>';
+	} else {
+		// $sql="INSERT INTO tbl_admin(Username, Pass, NameAdmin, Email, Address, Phone, Role, IdBranch) VALUES ('$taikhoan','$matkhau','$name','','','$role', '$chinhanh')";
+		$sql="INSERT INTO tbl_admin(IdAdmin, Username, Pass, NameAdmin, Email, Address, Phone, Role, IdBranch) VALUES ('$idAdmin','$taikhoan','$matkhau','$name','','', '', '$role', 2)";
 		$query= sqlsrv_query($conn_sqlsrv, $sql) or die("Thêm mới thất bại");
-		echo('<script>swal({
+		echo '<script>swal({
 			title: "Congratulation",
 			text: "Thêm mới thành công thành công",
 			icon: "success",
 			button: "OK",
-		});</script>');
+		});</script>';
 	}
-
 }
 ?>
 <div class="container page_update animated flash ">
 	<div class="row">
 		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-lg-offset-3">
-			<h3>Thêm tài khoản admin</h3>
+			<h3>Thêm nhân viên</h3>
 			<form method="post">
-				<div class="form-group">
+				<!-- <div class="form-group">
 					<label for="email">Chi nhanh</label>
 					<select class="form-control" name="chinhanh" id="">
 						<?php 
 							$sql="SELECT * FROM tbl_Branch WHERE IdBranch !='4' ";
-                           $query= sqlsrv_query($conn_sqlsrv, $sql);
-                           while($row = sqlsrv_fetch_array($query)){
-						 ?>
+                           	$query= sqlsrv_query($conn_sqlsrv, $sql);
+                           	while ($row = sqlsrv_fetch_array($query)) {
+						?>
 						<option value="<?php echo $row['IdBranch']; ?>"><?php echo $row['NameBranch']; ?></option>
-						<?php } ?>
+						<?php 
+							} 
+						?>
 					</select>
+				</div> -->
+				<div class="form-group">
+					<label>Tên nhân viên</label>
+					<input type="text" class="form-control" name="txt_name">
+					<span class="label label-warning lb_error"><span class="glyphicon glyphicon-remove" style="margin-right: 5px"></span>Không được để trống</span>
 				</div>
 				<div class="form-group">
 					<label for="email">Tên tài khoản</label>
@@ -60,9 +78,19 @@ if(isset($_POST["btn_add"])){
 					<div class="alert_confirm_pass"><span class="glyphicon glyphicon-remove"></span></div>
 					<div class="vuong_confirm_pass"></div>
 				</div>
-				<button type="submit" class="btn btn-success" name="btn_add">Thêm</button>
+				<div class="form-group">
+					<label for="email">Vị trí làm việc</label>
+					<select class="form-control" name="txt_role">
+						<option disabled selected>Vị trí làm việc</option>
+						<option value="4">Nhân viên quản lí sản phẩm</option>
+						<option value="3">Nhân viên quản lí đơn hàng</option>
+						<option value="2">Nhân viên quản lí tin tức</option>
+						<option value="1">Nhân viên chăm sóc khách hàng</option>
+					</select>
+					<span class="label label-warning lb_error"><span class="glyphicon glyphicon-remove" style="margin-right: 5px"></span>Không được để trống</span>
+				</div>
+				<button type="submit" class="btn btn-success" name="btn_add">Lưu</button>
 			</form>
 		</div>
 	</div>
-	
 </div>
