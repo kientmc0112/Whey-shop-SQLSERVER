@@ -7,9 +7,9 @@
       <table class="table table-bordered " >
         <thead style="text-align: center;">
           <tr class="danger">
-            <th>IdGroupProduct</th>
-            <th>NameGroupProduct</th>
-            <th>function</th>
+            <th>Id</th>
+            <th>Tên nhóm sản phẩm</th>
+            <th>Option</th>
           </tr>
         </thead>
         <tbody id="myTable">

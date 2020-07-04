@@ -3,12 +3,21 @@ echo '..........' . $_SESSION['idAdmin'];
 if (isset($_POST["btn_add"])) {
 	$sql0="SELECT MAX(IdNews) as 'max' FROM tbl_news_detail";
 	$query0= sqlsrv_query($conn_sqlsrv, $sql0);
-	$row = sqlsrv_fetch_array($query0);
-	$idnews = $row["max"] + 2;
+	$row0 = sqlsrv_fetch_array($query0);
+	$idnews = $row0["max"] + 1;
+
+	$sql1="SELECT MAX(IdNews) as 'max' FROM LINK.webshop.dbo.tbl_news_detail";
+	$query1= sqlsrv_query($conn_sqlsrv, $sql1);
+	$row1 = sqlsrv_fetch_array($query1);
+	$idnews2 = $row1["max"] + 1;
+
+	if ($idnews < $idnews2) {
+		$idnews = $idnews2;
+	}
+
 	$title = $_POST["txt_title"];
 	$discreption = $_POST["txt_discreption"];
 	$content = $_POST["txt_content"];
-	// $urlimage = $_POST["txt_urlimage"];
 	$idnewsgroup = $_POST["sl_idnewsgroup"];
 	//Xử lí upload ảnh start
 	if ($_FILES['upload']['error']>0) {
@@ -18,7 +27,6 @@ if (isset($_POST["btn_add"])) {
 	$urlimage = $_FILES['upload']['name'];
 	 //Xử lí upload ảnh end
 
-	// $sql="INSERT INTO tbl_news_detail(Title, Discreption, Content, UrlImage, IdNewsGroup) VALUES (N'$title',N'$discreption',N'$content','$urlimage','$idnewsgroup')";
 	$sql="INSERT INTO tbl_news_detail(IdNews, Title, Discreption, Content, UrlImage, IdNewsGroup) VALUES ('$idnews',N'$title',N'$discreption',N'$content','$urlimage','$idnewsgroup')";
 	$query= sqlsrv_query($conn_sqlsrv, $sql) or die("Thêm mới thất bại");
 	header('location: index.php?page=add_news');

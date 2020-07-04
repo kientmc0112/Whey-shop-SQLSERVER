@@ -44,17 +44,21 @@ if (isset($_POST["bt_dangky"])){
             button: "OK",
           });</script>';
     } else {
-        $sql1 = "SELECT max(IdCustomer) as max From tbl_customer";
-        $query1 = sqlsrv_query($conn_sqlsrv, $sql1);
-        $row = sqlsrv_fetch_array($query1);
-        if ($row['max'] != '') {
-            $idCustomer = $row["max"] + 1;
-        } else {
-            $idCustomer = 1;
+        $sql = "SELECT max(IdCustomer) as max From tbl_customer";
+        $query = sqlsrv_query($conn_sqlsrv, $sql);
+        $row = sqlsrv_fetch_array($query);
+        $idCustomer = $row["max"] + 1;
+
+        $sql1 = "SELECT max(IdCustomer) as max From LINK.webshop.dbo.tbl_customer";
+        $query1= sqlsrv_query($conn_sqlsrv, $sql1 );
+        $row1 = sqlsrv_fetch_array($query1);
+        $idCustomer2 = $row1["max"] + 1; // id khach hang site 2
+
+        if($idCustomer < $idCustomer2){
+            $idCustomer = $idCustomer2;
         }
         
-        $sql="INSERT INTO tbl_customer (IdCustomer, Username, Pass, NameCustomer, Email, Address, Phone) VALUES ('$idCustomer ',  '$user', '$pass', N'$name', '$email', N'$addr', '$phone');";
-        // $sql="INSERT INTO tbl_customer (Username, Pass, NameCustomer, Email, Address, Phone) VALUES ('$user', '$pass', N'$name', '$email', N'$addr', '$phone');";
+        $sql="INSERT INTO tbl_customer (IdCustomer, Username, Pass, NameCustomer, Email, Address, Phone) VALUES ('$idCustomer ',  '$user', '$pass', N'$name', '$email', N'$addr', '$phone')";
         $query = sqlsrv_query($conn_sqlsrv, $sql);
         echo '<script>swal({
             title: "Đăng ký thành công",
@@ -134,12 +138,8 @@ if (isset($_POST["bt_updatePass"])){
             </div>
             <div class="form-group">
                 <label for="inputPassword" class="control-label">Password:</label>
-                <!-- <div class="form-inline row">
-                    <div class="form-group col-sm-6" style="position: relative;"> -->
-                        <input type="password" data-minlength="8" class="form-control" id="inputPassword" name="txt_pass" placeholder="Nhập mật khẩu..." required style="">
-                        <span class="glyphicon glyphicon-lock" style="font-size: 12px;color: #c5b9b9;position: absolute;top: 9px;"></span>
-                    <!-- </div>
-                </div> -->
+                    <input type="password" data-minlength="8" class="form-control" id="inputPassword" name="txt_pass" placeholder="Nhập mật khẩu..." required style="">
+                    <span class="glyphicon glyphicon-lock" style="font-size: 12px;color: #c5b9b9;position: absolute;top: 9px;"></span>
                 <div class="form-group">
                     <label>
                         <input type="checkbox" checked="checked" name="remember"> Nhớ mật khẩu

@@ -22,7 +22,8 @@
                                         <h4>
                                             <?php 
                                                 if (isset($_SESSION["cart"])) {
-                                                   $total_product= count($_SESSION["cart"]);
+                                                   // $total_product= count($_SESSION["cart"]);
+                                                    $total_product= 0;
                                                 }
                                             ?>
                                             <span class="glyphicon glyphicon-ok" style="margin-right: 5px"></span>Đã chọn(<?php echo($total_product) ?> sản phẩm)
@@ -39,6 +40,7 @@
                             <?php 
                             $total_money=0;
                             foreach ($_SESSION["cart"] as $key => $val) {
+                                $total_product += $val['number'];
                                 $total_money += $val["NewPrice"]*$val["number"];
                                 $_SESSION["total_money"] = $total_money;
                             ?>
@@ -47,6 +49,12 @@
                                     <div class="col-xs-6 col-sm-8 col-md-8 col-lg-8">
                                         <img src="upload/<?php echo($val["UrlImage"]) ?>" class="pull-left">
                                         <p class="ten"><?php echo($val["NameProduct"]); ?></p>
+                                        <?php 
+                                            if (isset($val["huongvi"]) && isset($val["quatang"])) {
+                                        ?>
+                                        <?php 
+                                            } 
+                                        ?>
                                         <p><span class="glyphicon glyphicon-heart" style="margin-right: 10px; color: #B1A69E"></span><a href="View/deletecart.php?idcart=<?php echo($key) ?>" hu="tooltip" title="Xóa sản phẩm này" onclick="return confirm('Bạn có muốn xóa sản phẩm này khỏi giỏ hàng')" id="deletecart"><span class="glyphicon glyphicon-trash" style="color: #B1A69E"></span></a></p>
                                     </div>
                                     <div class="col-xs-3 col-sm-2 col-md-2 col-lg-2 dongia">
@@ -71,7 +79,13 @@
                                     </div>
                                     <div class="col-xs-3 col-sm-2 col-md-2 col-lg-2 text-center">
                                         <h4>
-                                            <input class="soluong" type="number" name="txt_number[<?php echo($key) ?>]" min="1"; max="100" value="<?php echo($val["number"]) ?>" style="width: 75px"/>
+                                            <?php 
+                                                $sql = "Select * from tbl_product where IdProduct='$key'";
+                                                $query = sqlsrv_query($conn_sqlsrv, $sql);
+                                                $row = sqlsrv_fetch_array($query);
+                                                $amount = $row['Amount'];
+                                            ?>
+                                            <input class="soluong" type="number" name="txt_number[<?php echo($key) ?>]" min="1"; max="<?php echo $amount ?>" value="<?php echo($val["number"]) ?>"/>
                                         </h4>
                                     </div>
                                 </div>
@@ -384,6 +398,12 @@ if (isset($_GET["alert"])) {
         echo '<script>swal({
             text: "Bạn đã đặt hàng thành công, tiếp tục mua sắm",
             icon: "success",
+            button: "OK",
+          });</script>';
+    } else {
+        echo '<script>swal({
+            text: "Đặt hàng thất bại",
+            icon: "warning",
             button: "OK",
           });</script>';
     }

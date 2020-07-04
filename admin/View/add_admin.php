@@ -4,19 +4,24 @@ if (isset($_POST["btn_add"])) {
 	$matkhau = md5($_POST["txt_matkhau"]);
 	$role = $_POST['txt_role'];
 	$name = $_POST['txt_name'];
-	// $chinhanh = $_POST["chinhanh"];
 	$sql="SELECT * FROM tbl_admin where Username = '$taikhoan' ";
 	$params = array();
     $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
     $query = sqlsrv_query($conn_sqlsrv, $sql , $params, $options);
+
     $sql0="SELECT MAX(IdAdmin) as 'max' FROM tbl_admin";
 	$query0= sqlsrv_query($conn_sqlsrv, $sql0);
 	$row = sqlsrv_fetch_array($query0);
-	if ($row['max'] != '') {
-		$idAdmin = $row["max"] + 2;
-	} else {
-		$idAdmin = 2;
-	}
+	$idAdmin = $row['max'] + 1;
+	
+	$sql1 = "SELECT max(IdAdmin) as max From LINK.webshop.dbo.tbl_admin";
+    $query1= sqlsrv_query($conn_sqlsrv, $sql1 );
+    $row1 = sqlsrv_fetch_array($query1);
+    $idAdmin2 = $row1["max"] + 1; 
+
+    if ($idAdmin < $idAdmin2) {
+    	$idAdmin = $idAdmin2; 
+    }
 	
 	if (sqlsrv_num_rows($query) != false) {
 		echo '<script>swal({
@@ -25,7 +30,6 @@ if (isset($_POST["btn_add"])) {
 			button: "OK",
 		});</script>';
 	} else {
-		// $sql="INSERT INTO tbl_admin(Username, Pass, NameAdmin, Email, Address, Phone, Role, IdBranch) VALUES ('$taikhoan','$matkhau','$name','','','$role', '$chinhanh')";
 		$sql="INSERT INTO tbl_admin(IdAdmin, Username, Pass, NameAdmin, Email, Address, Phone, Role, IdBranch) VALUES ('$idAdmin','$taikhoan','$matkhau','$name','','', '', '$role', 2)";
 		$query= sqlsrv_query($conn_sqlsrv, $sql) or die("Thêm mới thất bại");
 		echo '<script>swal({
@@ -42,20 +46,6 @@ if (isset($_POST["btn_add"])) {
 		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-lg-offset-3">
 			<h3>Thêm nhân viên</h3>
 			<form method="post">
-				<!-- <div class="form-group">
-					<label for="email">Chi nhanh</label>
-					<select class="form-control" name="chinhanh" id="">
-						<?php 
-							$sql="SELECT * FROM tbl_Branch WHERE IdBranch !='4' ";
-                           	$query= sqlsrv_query($conn_sqlsrv, $sql);
-                           	while ($row = sqlsrv_fetch_array($query)) {
-						?>
-						<option value="<?php echo $row['IdBranch']; ?>"><?php echo $row['NameBranch']; ?></option>
-						<?php 
-							} 
-						?>
-					</select>
-				</div> -->
 				<div class="form-group">
 					<label>Tên nhân viên</label>
 					<input type="text" class="form-control" name="txt_name">

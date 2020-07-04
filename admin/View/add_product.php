@@ -22,12 +22,17 @@ if (isset($_POST["btn_add"])) {
 
 	$sql1 ="SELECT MAX(IdProduct) as 'max' FROM tbl_product";
 	$query1 = sqlsrv_query($conn_sqlsrv, $sql1);
-	$row = sqlsrv_fetch_array($query1);
-	if ($row['max'] != '') {
-		$idproduct = $row["max"] + 2;
-	} else {
-		$idproduct = 2;
+	$row1 = sqlsrv_fetch_array($query1);
+	$idproduct = $row1["max"] + 1;
+
+	$sql2="SELECT MAX(IdProduct) as 'max' FROM LINK.webshop.dbo.tbl_product";
+	$query2= sqlsrv_query($conn_sqlsrv, $sql2);
+	$row2 = sqlsrv_fetch_array($query2);
+	$idproduct2 = $row2["max"] + 1;	
+	if ($idproduct < $idproduct2) {
+		$idproduct = $idproduct2;
 	}
+
 	$sql="INSERT INTO tbl_product(IdProduct,NameProduct,OriginalPrice, OldPrice, NewPrice, UrlImage, Note, Description, ProductContent, AmountOriginal, Amount, IdGroupDetail, IdProvider, IdBranch) VALUES ('$idproduct', N'$nameproduct','$originalprice','$oldprice','$newprice','$urlimage',N'$note',N'$description',N'$content','$amount_original','$amount','$idgroupdetail','$idprovider', '2')";
 	$query= sqlsrv_query($conn_sqlsrv, $sql) or die(print_r(sqlsrv_errors(), true));
 	header('location:index.php?page=manage_product');

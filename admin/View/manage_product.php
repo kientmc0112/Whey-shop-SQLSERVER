@@ -19,40 +19,37 @@ img {
                     <tr class="danger">
                         <th>Mã</th>
                         <th>Tên</th>
-                        <th>Giá nhập vào</th>
+                        <th>Giá gốc</th>
                         <th>Giá cũ</th>
-                        <th>Giá hiện tại</th>
+                        <th>Giá mới</th>
                         <th>Hỉnh ảnh</th>
-                        <th>SLnhap</th>
-                        <th>SLcon</th>
+                        <th>Số lượng nhập</th>
+                        <th>Số lượng còn</th>
                         <th>Nhóm</th>
                         <th>Nhóm chi tiết</th>
                         <th>Mã NSX</th>
-                        <th>Option</th>
+ 			            <th>Chi Nhánh</th>
+                        <th>Thao tác</th>
                     </tr>
                 </thead>
                 <tbody id="myTable">
-                <?php 
-                    //phan trang start
-                    $news_onepage = 10;//Xác định số bản tin trong một trang
+                    <!-- $news_onepage = 10;
                     $sql = "select *  from tbl_product";
                     $params = array();
                     $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                     $query = sqlsrv_query($conn_sqlsrv, $sql , $params, $options);
-                    $total_record =  sqlsrv_num_rows($query) ;//xác định tổng số bản ghi có trong database
-                    $total_page = ceil($total_record/$news_onepage);//Xác định tổng số trang
-                    if (isset($_GET["PageNo"])) {//XĐ trang hiện tại
+                    $total_record =  sqlsrv_num_rows($query)*2; ;
+                    $total_page = ceil($total_record/(2*$news_onepage));
+                    if (isset($_GET["PageNo"])) {
                       $page = $_GET["PageNo"];
                     } else $page = 1;
-                    //$first_record = ($page-1)*$news_onepage;//xác định stt bản ghi bắt đầu của 1 trang
                     $first_record = $total_record-($page-1)*$news_onepage;
-                    //phan trang end
-                    // $sql="SELECT TOP $news_onepage *
-                    // FROM tbl_product
-                    // WHERE IdProduct NOT IN (SELECT TOP $first_record IdProduct FROM tbl_product)
-                    // ORDER BY IdProduct DESC";
-                    $last_record = $first_record - $news_onepage + 1;
+                    $last_record = ($first_record - $news_onepage*2 + 1);
                     $sql = "Select * from tbl_product where IdProduct between '$last_record' and '$first_record' order by IdProduct DESC";
+                    $query= sqlsrv_query($conn_sqlsrv, $sql) or die(print_r(sqlsrv_errors(), true));
+                    while($row = sqlsrv_fetch_array($query)){ -->
+                <?php
+                    $sql = "Select * from tbl_product order by IdProduct DESC";
                     $query= sqlsrv_query($conn_sqlsrv, $sql) or die(print_r(sqlsrv_errors(), true));
                     while($row = sqlsrv_fetch_array($query)){
                 ?>
@@ -64,7 +61,7 @@ img {
                     <td><?php  echo(number_format($row["NewPrice"])."đ") ?></td>
                     <td><img src="../upload/<?php echo($row["UrlImage"]) ?>" alt=""></td>
                     <td><?php echo($row["Amount"]) ?></td>
-                    <td><?php echo($row["AmountOriginal"]) ?></td>
+		            <td><?php echo($row["AmountOriginal"]) ?></td>
                     <td>
                     <?php
                         // $idProductGroup = $row["IdGroupProduct"];
@@ -95,6 +92,17 @@ img {
                         echo $row3["NameProvider"]; 
                     ?>
                     </td>
+
+        			<td>
+        			<?php 
+            			if ($row["IdBranch"] == 1){
+            				echo( "Hà Nội");
+            			} else {
+            				echo ("Đà Nẵng");
+            			}                       
+                    ?>
+                    </td>
+
                     <td class="td_bill">
                         <a href="index.php?page=update_product&&id=<?php echo($row["IdProduct"]) ?>" class="btn btn-success btn-xs " ><span class="fa fa-wrench" style=" margin-right: 5px"></span>Sửa</a>
                         <a href="View/delete.php?idproduct=<?php echo($row["IdProduct"]) ?>" class="btn btn-danger btn-xs" onclick="return confirm('Bạn có chắc chắn muốn xóa')"><span class="fa fa-trash-alt" style=" margin-right: 5px"></span>Xóa</a>
@@ -105,29 +113,23 @@ img {
                 ?>
                 </tbody>
             </table>
-            <ul class="pagination">
+            <!-- <ul class="pagination">
                 <?php
-                //Tạo nút prev
                 if ($page>1) {
                     $prev=$page-1;
                     echo "<li class=''><a href='index.php?page=manage_product&&PageNo=$prev'>Trước</a></li>";
                 }
-                //Tạo nút số thứ tự trang
                 for ($i=1; $i <= $total_page; $i++) {
                     if ($i!=$page) {
                         echo "<li><a href='index.php?page=manage_product&&PageNo=$i'>$i</a></li>";
                     } else echo "<li class='active'><a href='index.php?page=manage_product&&PageNo=$i'>$i</a></li>";
                 }
-                //Tạo nút next
                 if ($page<$total_page) {
                     $next=$page+1;
                     echo "<li class=''><a href='index.php?page=manage_product&&PageNo=$next'>Sau...</a></li>";
                 }
                 ?>
-            </ul>
+            </ul> -->
         </div>
     </div>
 </div>
-
-
-

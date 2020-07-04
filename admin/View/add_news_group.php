@@ -3,7 +3,16 @@
         $sql="SELECT MAX(IdNewsGroup) as max FROM tbl_news_group";
         $query= mysqli_query($conn, $sql);
         $row = mysqli_fetch_array($query);
-		$idnewsgroup = $row["max"] + 2;
+		$idnewsgroup = $row["max"] + 1;
+		$sql1="SELECT MAX(IdNews) as 'max' FROM LINK.webshop.dbo.tbl_news_group";
+		$query1= sqlsrv_query($conn_sqlsrv, $sql1);
+		$row1 = sqlsrv_fetch_array($query1);
+		$idnewsgroup2 = $row1["max"] + 1;
+
+		if ($idnewsgroup < $idnewsgroup2) {
+			$idnewsgroup = $idnewsgroup2;
+		}
+
 		$idAdmin = $_SESSION['idAdmin'];
 		$namenewsgroup = $_POST["txt_namenewsgroup"];
 		$sql="INSERT INTO `tbl_news_group`(`IdNewsGroup`, `NameNewsGroup`, `IdAdmin`) VALUES ('$idnewsgroup','$namenewsgroup', '$idAdmin')";
