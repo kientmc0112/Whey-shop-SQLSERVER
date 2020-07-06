@@ -7,8 +7,8 @@
             <table class="table table-bordered "  >
                 <thead>
                     <tr class="danger">
-                        <th>IdNewsGroup</th>
-                        <th>NameNewsGroup</th>
+                        <th>Id</th>
+                        <th>Nhóm tin tức</th>
                         <th>Option</th>
                     </tr>
                 </thead>

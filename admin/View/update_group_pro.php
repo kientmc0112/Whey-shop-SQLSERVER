@@ -2,13 +2,13 @@
     if (isset($_GET["id"])) {
     	 $id=$_GET["id"];
     	 $sql="SELECT * FROM tbl_product_group where IdGroupProduct='$id'";
-        $query= mysqli_query($conn, $sql);
-        $row = mysqli_fetch_array($query);
+        $query= sqlsrv_query($conn_sqlsrv, $sql);
+        $row = sqlsrv_fetch_array($query);
         if (isset($_POST["btn_update"])) {
           	$idgroup = $_POST["txt_idgroup"];
           	$namegroup = $_POST["txt_namegroup"];
-          	$sql="UPDATE `tbl_product_group` SET `IdGroupProduct`= '$idgroup',`NameGroupProduct`='$namegroup' WHERE IdGroupProduct='$id' ";
-          	$query= mysqli_query($conn, $sql) or die("Update thất bại");
+          	$sql="UPDATE tbl_product_group SET IdGroupProduct= '$idgroup',NameGroupProduct='$namegroup' WHERE IdGroupProduct='$id' ";
+          	$query= sqlsrv_query($conn_sqlsrv, $sql) or die("Update thất bại");
           	echo '<script>swal({
                     title: "Congratulation",
                     text: "Update thành công",

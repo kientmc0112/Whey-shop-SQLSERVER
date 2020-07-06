@@ -2,16 +2,16 @@
   	if (isset($_GET["id"])) {
 	  	$id=$_GET["id"];
 	  	$sql="SELECT * FROM tbl_group_detail where IdGroupDetail='$id'";
-		$query= mysqli_query($conn, $sql);
-		$row = mysqli_fetch_array($query);
+		$query= sqlsrv_query($conn_sqlsrv, $sql);
+		$row = sqlsrv_fetch_array($query);
 		$idgroupproduct = $row["IdGroupProduct"];
 
 		if (isset($_POST["btn_update"])) {
 			$idgroupdetail = $_POST["txt_idgroupdetail"];
 			$namegroupdetail = $_POST["txt_namegroupdetail"];
 			$idgroup = $_POST["sl_idgroup"];
-			$sql="UPDATE `tbl_group_detail` SET `IdGroupDetail`= '$idgroupdetail',`NameGroupDetail`='$namegroupdetail', IdGroupProduct='$idgroup' WHERE IdGroupDetail='$id' ";
-			$query= mysqli_query($conn, $sql) or die("Update thất bại");
+			$sql="UPDATE tbl_group_detail SET IdGroupDetail= '$idgroupdetail',NameGroupDetail='$namegroupdetail', IdGroupProduct='$idgroup' WHERE IdGroupDetail='$id' ";
+			$query= sqlsrv_query($conn_sqlsrv, $sql) or die("Update thất bại");
 			echo '<script>swal({
 	              title: "Congratulation",
 	              text: "Update thành công",
@@ -40,11 +40,11 @@
 	      	<select class="form-control" id="sel1" name="sl_idgroup">
 	      	<?php 
 	      		$sql="SELECT * FROM tbl_product_group";
-				$query= mysqli_query($conn, $sql);
-				while ($row = mysqli_fetch_array($query)) {
+				$query= sqlsrv_query($conn_sqlsrv, $sql);
+				while ($row = sqlsrv_fetch_array($query)) {
 					if ($row["IdGroupProduct"] == $idgroupproduct) {
 	      	?>
-	        <option value="<?php echo($row["IdGroupProduct"])?>" selected><?php echo($row["IdGroupProduct"]."(".$row["NameGroupProduct"]).")" ?></option>
+	        <option value="<?php echo($row["IdGroupProduct"])?>" selected><?php echo $row["NameGroupProduct"] ?></option>
 	        <?php 
 	    			} else { 
 	    	?>

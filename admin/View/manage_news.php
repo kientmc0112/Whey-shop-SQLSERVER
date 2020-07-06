@@ -7,13 +7,13 @@
             <table class="table table-bordered "  >
                 <thead>
                     <tr class="danger">
-                        <th>IdNews</th>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Content</th>
-                        <th>UrlImage</th>
-                        <th>IdNewsGroup</th>
-                        <th>function </th>
+                        <th>Id</th>
+                        <th>Tiêu đề</th>
+                        <th>Mô tả</th>
+                        <th>Nội dung</th>
+                        <th>Ảnh</th>
+                        <th>Nhóm tin tức</th>
+                        <th>Option</th>
                     </tr>
                 </thead>
                 <tbody id="myTable">

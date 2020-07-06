@@ -1,10 +1,10 @@
 <?php 
 	if (isset($_POST["btn_add"])) {
         $sql="SELECT MAX(IdNewsGroup) as max FROM tbl_news_group";
-        $query= mysqli_query($conn, $sql);
-        $row = mysqli_fetch_array($query);
+        $query= sqlsrv_query($conn_sqlsrv, $sql);
+        $row = sqlsrv_fetch_array($query);
 		$idnewsgroup = $row["max"] + 1;
-		$sql1="SELECT MAX(IdNews) as 'max' FROM LINK.webshop.dbo.tbl_news_group";
+		$sql1="SELECT MAX(IdNewsGroup) as 'max' FROM LINK.webshop.dbo.tbl_news_group";
 		$query1= sqlsrv_query($conn_sqlsrv, $sql1);
 		$row1 = sqlsrv_fetch_array($query1);
 		$idnewsgroup2 = $row1["max"] + 1;
@@ -15,8 +15,8 @@
 
 		$idAdmin = $_SESSION['idAdmin'];
 		$namenewsgroup = $_POST["txt_namenewsgroup"];
-		$sql="INSERT INTO `tbl_news_group`(`IdNewsGroup`, `NameNewsGroup`, `IdAdmin`) VALUES ('$idnewsgroup','$namenewsgroup', '$idAdmin')";
-		$query= mysqli_query($conn, $sql) or die("Thêm mới thất bại");
+		$sql="INSERT INTO tbl_news_group(IdNewsGroup, NameNewsGroup, IdAdmin) VALUES ('$idnewsgroup',N'$namenewsgroup', '$idAdmin')";
+		$query= sqlsrv_query($conn_sqlsrv, $sql) or die("Thêm mới thất bại");
 		echo '<script>swal({
               title: "Congratulation",
               text: "Thêm mới thành công thành công",

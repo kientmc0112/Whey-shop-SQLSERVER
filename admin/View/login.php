@@ -33,7 +33,7 @@
 <div class="full">
     <div class="login">
         <div class="tren">
-            <h3>WHEY SHOP</h3>
+            <h3>MELLO SHOP</h3>
             <form method="post">
                 <div class="form-group">
                     <label for="email">USENAME:</label>
